@@ -11,10 +11,8 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    
-    SinghalSort();
-    
-    }
+
+}
 
 //--------------------------------------------------------------
 void ofApp::draw(){
@@ -26,6 +24,8 @@ void ofApp::draw(){
     {
         ofDrawRectangle((ofGetWidth()/length)*i, ofGetHeight() - n[i], ofGetWidth()/length, n[i]);
     }
+    
+    MergeSort(0, length);
 }
 
 void ofApp::BubbleSort()
@@ -136,7 +136,60 @@ void ofApp::IdkSort()
     mergeCycles++;
 }
 
-void ofApp::MergeSort()
+void ofApp::MergeSort(int low, int high)
 {
+    int mid;
     
+    if(low < high)
+    {
+        mid = (low + high)/2;
+        MergeSort(low, mid);
+        MergeSort(mid+1, high);
+        Merge(low, mid, high);
+    }
+}
+
+void ofApp::Merge(int low, int mid, int high)
+{
+    int h, i, j, b[1440];
+    h = low;
+    i = low;
+    j = mid+1;
+    
+    while(h <= mid && j <= high)
+    {
+        if(n[h] <= n[j])
+        {
+            b[i] = n[h];
+            h++;
+        }
+        else
+        {
+            b[i] = n[j];
+            j++;
+        }
+    i++;
+    }
+    
+    if(h > mid)
+    {
+        for(int k = j; k <= high; k++)
+        {
+            b[i] = n[k];
+            i++;
+        }
+    }
+    else
+    {
+        for(int k = h; k <= high; k++)
+        {
+            b[i] = n[k];
+            i++;
+        }
+    }
+    
+    for(int k = low; k <= high; k++)
+    {
+        n[k] = b[k];
+    }
 }
